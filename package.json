@@ -5,7 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "install-all": "npm install && cd client && npm install && cd ../server && npm install",
-    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "build": "cd client && npm install && npm run build && cd .. && rm -rf server/public && mkdir -p server/public && cp -r client/dist/* server/public/ && cd server && npm install",
     "start": "cd server && npm start",
     "seed": "cd server && npx prisma db seed",
     "postinstall": "cd server && npx prisma generate"
