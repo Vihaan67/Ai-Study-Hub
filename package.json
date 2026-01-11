@@ -1,0 +1,24 @@
+{
+  "name": "study-hub",
+  "version": "1.0.0",
+  "description": "A comprehensive educational platform for all subjects.",
+  "main": "server/index.js",
+  "scripts": {
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "start": "cd server && npm start",
+    "seed": "cd server && npx prisma db seed",
+    "postinstall": "cd server && npx prisma generate"
+  },
+  "keywords": [
+    "education",
+    "lms",
+    "study-hub",
+    "react",
+    "node",
+    "prisma",
+    "postgresql"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

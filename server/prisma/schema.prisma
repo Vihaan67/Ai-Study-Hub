@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  name      String
+  role      Role       @default(STUDENT)
+  progress  Progress[]
+  createdAt DateTime   @default(now())
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+model Subject {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  description String
+  icon        String
+  color       String
+  subtopics   Subtopic[]
+}
+
+model Subtopic {
+  id        String   @id @default(uuid())
+  name      String
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  lessons   Lesson[]
+}
+
+model Lesson {
+  id         String     @id @default(uuid())
+  title      String
+  content    String     @db.Text
+  subtopicId String
+  subtopic   Subtopic   @relation(fields: [subtopicId], references: [id])
+  quizzes    Quiz[]
+  progress   Progress[]
+}
+
+model Quiz {
+  id        String     @id @default(uuid())
+  title     String
+  lessonId  String
+  lesson    Lesson     @relation(fields: [lessonId], references: [id])
+  questions Question[]
+}
+
+model Question {
+  id      String   @id @default(uuid())
+  text    String
+  options String[] // Stored as array of strings
+  answer  Int      // Index of correct option
+  quizId  String
+  quiz    Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model Progress {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id])
+  completed Boolean  @default(false)
+  score     Int?
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+}
