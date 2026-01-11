@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, GraduationCap, Trophy, Users, ShieldCheck, Zap } from 'lucide-react';
+import { BookOpen, Trophy, Zap } from 'lucide-react';
 
 export const Landing: React.FC = () => {
     return (

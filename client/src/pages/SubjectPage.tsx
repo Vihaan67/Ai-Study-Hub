@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { ChevronRight, PlayCircle, BookOpen } from 'lucide-react';
+import { ChevronRight, PlayCircle } from 'lucide-react';
 
 export const SubjectPage: React.FC = () => {
     const { id } = useParams();
