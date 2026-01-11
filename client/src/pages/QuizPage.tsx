@@ -143,10 +143,10 @@ export const QuizPage: React.FC = () => {
                                     disabled={selectedOption !== null}
                                     onClick={() => handleOptionSelect(idx)}
                                     className={`w-full text-left p-6 rounded-2xl border-2 transition-all duration-200 flex items-center justify-between ${isSelected
-                                            ? sitsCorrect ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-red-500 bg-red-50 dark:bg-red-900/20'
-                                            : showCorrect
-                                                ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
-                                                : 'border-slate-200 dark:border-slate-700 hover:border-primary-500 bg-transparent'
+                                        ? isCorrect ? 'border-green-500 bg-green-50 dark:bg-green-900/20' : 'border-red-500 bg-red-50 dark:bg-red-900/20'
+                                        : showCorrect
+                                            ? 'border-green-500 bg-green-50 dark:bg-green-900/10'
+                                            : 'border-slate-200 dark:border-slate-700 hover:border-primary-500 bg-transparent'
                                         }`}
                                 >
                                     <span className="text-lg font-medium">{option}</span>
