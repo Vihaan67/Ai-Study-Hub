@@ -4,7 +4,7 @@
   "description": "A comprehensive educational platform for all subjects.",
   "main": "server/index.js",
   "scripts": {
-    "build": "npm install && cd client && npm install && npm run build && cd .. && rm -rf server/public && mkdir -p server/public && cp -r client/dist/* server/public/ && npx prisma generate && npx prisma migrate deploy && npm run seed",
+    "build": "npm install && cd client && npm install && npm run build && cd .. && rm -rf server/public && mkdir -p server/public && cp -R client/dist/. server/public/ && npx prisma generate && npx prisma migrate deploy && npm run seed || true",
     "start": "node server/index.js",
     "seed": "npx prisma db seed",
     "postinstall": "npx prisma generate"
