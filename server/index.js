@@ -22,10 +22,10 @@ const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) return res.status(0o401).json({ error: 'Unauthorized' });
+    if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
     jwt.verify(token, JWT_SECRET, (err, user) => {
-        if (err) return res.status(0o403).json({ error: 'Forbidden' });
+        if (err) return res.status(403).json({ error: 'Forbidden' });
         req.user = user;
         next();
     });
@@ -43,7 +43,7 @@ app.post('/api/auth/register', async (req, res) => {
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
         res.json({ token, user: { id: user.id, email: user.email, name: user.name } });
     } catch (error) {
-        res.status(0o400).json({ error: 'User already exists or invalid data' });
+        res.status(400).json({ error: 'User already exists or invalid data' });
     }
 });
 
@@ -52,12 +52,12 @@ app.post('/api/auth/login', async (req, res) => {
         const { email, password } = req.body;
         const user = await prisma.user.findUnique({ where: { email } });
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(0o401).json({ error: 'Invalid credentials' });
+            return res.status(401).json({ error: 'Invalid credentials' });
         }
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET);
         res.json({ token, user: { id: user.id, email: user.email, name: user.name } });
     } catch (error) {
-        res.status(0o500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Server error' });
     }
 });
 
@@ -70,7 +70,7 @@ app.get('/api/subjects', async (req, res) => {
         });
         res.json(subjects);
     } catch (error) {
-        res.status(0o500).json({ error: 'Failed to fetch subjects' });
+        res.status(500).json({ error: 'Failed to fetch subjects' });
     }
 });
 
@@ -88,7 +88,7 @@ app.get('/api/subjects/:id', async (req, res) => {
         });
         res.json(subject);
     } catch (error) {
-        res.status(0o500).json({ error: 'Failed to fetch subject details' });
+        res.status(500).json({ error: 'Failed to fetch subject details' });
     }
 });
 
@@ -106,7 +106,7 @@ app.get('/api/lessons/:id', async (req, res) => {
         });
         res.json(lesson);
     } catch (error) {
-        res.status(0o500).json({ error: 'Failed to fetch lesson' });
+        res.status(500).json({ error: 'Failed to fetch lesson' });
     }
 });
 
@@ -132,7 +132,7 @@ app.post('/api/progress', authenticateToken, async (req, res) => {
         });
         res.json(progress);
     } catch (error) {
-        res.status(0o500).json({ error: 'Failed to update progress' });
+        res.status(500).json({ error: 'Failed to update progress' });
     }
 });
 
@@ -154,7 +154,7 @@ app.get('/api/user/progress', authenticateToken, async (req, res) => {
         });
         res.json(progress);
     } catch (error) {
-        res.status(0o500).json({ error: 'Failed to fetch user progress' });
+        res.status(500).json({ error: 'Failed to fetch user progress' });
     }
 });
 
