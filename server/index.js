@@ -158,11 +158,30 @@ app.get('/api/user/progress', authenticateToken, async (req, res) => {
     }
 });
 
+
 // All other GET requests not handled will return our React app
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    const indexPath = path.join(__dirname, 'public', 'index.html');
+    console.log('Serving index.html from:', indexPath);
+    res.sendFile(indexPath, (err) => {
+        if (err) {
+            console.error('Error serving index.html:', err);
+            res.status(404).send('App not found. Please check build configuration.');
+        }
+    });
 });
 
 app.listen(PORT, () => {
+    const fs = require('fs');
+    const publicPath = path.join(__dirname, 'public');
     console.log(`Server running on port ${PORT}`);
+    console.log('Public directory path:', publicPath);
+
+    if (fs.existsSync(publicPath)) {
+        console.log('Public directory exists');
+        const files = fs.readdirSync(publicPath);
+        console.log('Files in public directory:', files);
+    } else {
+        console.error('WARNING: Public directory does not exist!');
+    }
 });
